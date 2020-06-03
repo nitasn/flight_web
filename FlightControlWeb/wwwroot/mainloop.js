@@ -18,7 +18,7 @@ function loop_forever() {
 
             const id = flight.flight_id;
 
-            if (!glb_flight_ids.includes(id)) { // new flight
+            if (!glb_flight_ids.includes(id)) { /* new flight */
 
                 remove_plans_place_holder(); // if removed alerady, no effect
 
@@ -27,7 +27,7 @@ function loop_forever() {
 
                 glb_flight_ids.push(id);
             }
-            else { // updating an existing flight
+            else { /* updating an existing flight */
                 move_marker(flight);
             }
 
@@ -67,13 +67,13 @@ function loop_forever() {
 function on_update_failure(err) {
 
     err = err.toString();
+    const fetch_err = err.includes('fetch'); // yikes but works
 
-    if (err.includes('fetch'))
+    if (fetch_err)
         say_nicely("Couldn't update flights (failed to fetch)." +
             "<br /> Server might be down.");
     else
-        say_nicely("Couldn't update flights; err msg:" +
-            "<br />" + err);
+        say_nicely("Couldn't update flights; err msg: <br />" + err);
 }
 
 

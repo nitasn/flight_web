@@ -23,12 +23,12 @@ namespace FlightControlWeb.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<FlightPlan> GetFlightPlan(string id)
+        public ActionResult<FlightPlan> Get(string id)
         {
-            if (Model.Model.SingletonInstance.HasFlightPlan(id))
-            {
-                return Model.Model.SingletonInstance.GetFlightPlan(id);
-            }
+            var result = Model.Model.SingletonInstance.GetFlightPlan(id);
+
+            if (result != null)
+                return result;
 
             return NotFound();
         }

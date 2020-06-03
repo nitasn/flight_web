@@ -14,19 +14,25 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<ServerDetails> Get()
         {
-            throw new NotImplementedException("todo");
+            return Model.Model.SingletonInstance.GetExtServers();
         }
 
         [HttpPost]
         public ActionResult Post([FromBody] ServerDetails newServer)
         {
-            throw new NotImplementedException("todo");
+            Model.Model.SingletonInstance.AddExtServer(newServer);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
-            throw new NotImplementedException("todo");
+            bool success = Model.Model.SingletonInstance.
+                RemoveExtServer(id);
+
+            if (success) return Ok();
+
+            return NotFound();
         }
     }
 }

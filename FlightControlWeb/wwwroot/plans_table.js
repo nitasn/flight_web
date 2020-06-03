@@ -133,22 +133,35 @@ function add_row_to_table(flight) {
 
     const underlinable = `role="button"
         onmouseout="event.target.setAttribute('style',
-        'text-decoration: normal')"
+            'text-decoration: normal')"
         onmouseover="event.target.setAttribute('style',
-        'text-decoration: underline')"`;
+            'text-decoration: underline')"`;
 
     const tr = document.createElement('tr');
-    tr.setAttribute("id", flight.flight_id);
+    tr.setAttribute("id", 'tr_' + flight.flight_id);
 
-    tr.innerHTML = `
-        <th ${underlinable} scope='row' id='id_${flight.flight_id}'>
-            ${flight.flight_id}
-        </th>
-        <td>${flight.company_name}</td>
-        <td ${underlinable} id='rm_${flight.flight_id}'>
-            remove
-        </td>
-    `;
+    if (!flight.is_external) {
+        tr.innerHTML = `
+            <th ${underlinable} scope='row' id='id_${flight.flight_id}'>
+                ${flight.flight_id}
+            </th>
+            <td>${flight.company_name}</td>
+            <td ${underlinable} id='rm_${flight.flight_id}'>
+                remove
+            </td>
+        `;
+    }
+    else {
+        tr.innerHTML = `
+            <th ${underlinable} scope='row' id='id_${flight.flight_id}'>
+                ${flight.flight_id}
+            </th>
+            <td>${flight.company_name}</td>
+            <td>
+                <i>(external)</i>
+            </td>
+        `;
+    }
 
     table.append(tr);
 
@@ -165,15 +178,17 @@ function add_row_to_table(flight) {
                 .setIcon(selected_plane_icon_url);
         });
 
-    document.getElementById(`rm_${flight.flight_id}`)
-        .addEventListener("click", function () {
+    if (!flight.is_external) {
+        document.getElementById(`rm_${flight.flight_id}`)
+            .addEventListener("click", function () {
 
-            if (ID_toShowDetailsOf in glb_airplane_markers)
-                glb_airplane_markers[ID_toShowDetailsOf]
-                    .setIcon(regular_plane_icon_url);
+                if (ID_toShowDetailsOf in glb_airplane_markers)
+                    glb_airplane_markers[ID_toShowDetailsOf]
+                        .setIcon(regular_plane_icon_url);
 
-            send_delete_request(flight.flight_id);
-        });
+                send_delete_request(flight.flight_id);
+            });
+    }
 }
 
 ///* when page is ready, do */

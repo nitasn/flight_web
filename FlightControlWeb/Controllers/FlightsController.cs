@@ -30,7 +30,16 @@ namespace FlightControlWeb.Controllers
         [HttpGet]
         public IEnumerable<Flight> Get([FromQuery] DateTime relative_to)
         {
-            return Model.Model.SingletonInstance.GetLocalFlights(relative_to);
+            var model = Model.Model.SingletonInstance;
+
+            if (Request.Query.Keys.Contains("sync_all"))
+            {
+                return model.GetLocalAndExtFlights(relative_to);
+            }
+            else
+            {
+                return model.GetLocalFlights(relative_to);
+            }
         }
     }
 }
