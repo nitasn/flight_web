@@ -1,0 +1,45 @@
+﻿.row {
+    padding: 30px;
+}
+
+#map {
+    height: 510px;
+    background-color: lightgray;
+}
+
+#flight-details {
+    height: 100px;
+    /*background-color: lightsteelblue;*/
+}
+
+/*#upload-area {
+    border-color: #6e7078;
+    border-width: medium;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-radius: 15px 15px 15px 15px;
+}*/
+
+/*#external-flights {
+    height: 200px;
+    background-color: lightsteelblue;
+}*/
+
+#flight-details, #my-flights, #external-flights {
+    border-radius: 15px 15px 15px 15px;
+    text-align: center;
+    padding-top: 25px;
+}
+
+#map {
+    border-radius: 15px 15px 15px 15px;
+}
+
+.divisor {
+    height: 22px;
+}
+
+#details-table-row > td {
+    color: lightgrey;
+    font-size: small;
+}
