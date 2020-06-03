@@ -8,35 +8,35 @@ namespace FlightControlWeb.Model
 {
     public class Model
     {
-        //private Mutex plansMutex = new Mutex();
+        private readonly Mutex PlansMutex = new Mutex();
 
-        class DummyMutex
-        {
-            public void WaitOne() { }
-            public void ReleaseMutex() { }
-        }
-        DummyMutex plansMutex = new DummyMutex();
+        //class DummyMutex
+        //{
+        //    public void WaitOne() { }
+        //    public void ReleaseMutex() { }
+        //}
+        //private readonly DummyMutex PlansMutex = new DummyMutex();
 
-        private Dictionary<string, FlightPlan> plans;
+        private readonly Dictionary<string, FlightPlan> FltPlans;
 
-        private I_ID_Generator ID_Generator;
+        private readonly IGeneratorID GeneratorID;
 
-        public int NumPlans => plans.Count;
+        public int NumPlans => FltPlans.Count;
 
         public FlightPlan GetFlightPlan(string id)
         {
-            plansMutex.WaitOne();
-            var result = plans[id];
-            plansMutex.ReleaseMutex();
+            PlansMutex.WaitOne();
+            var result = FltPlans[id];
+            PlansMutex.ReleaseMutex();
             
             return result;
         }
 
         public bool HasFlightPlan(string id)
         {
-            plansMutex.WaitOne();
-            var result = plans.ContainsKey(id);
-            plansMutex.ReleaseMutex();
+            PlansMutex.WaitOne();
+            var result = FltPlans.ContainsKey(id);
+            PlansMutex.ReleaseMutex();
 
             return result;
         }
@@ -46,21 +46,21 @@ namespace FlightControlWeb.Model
         /// </summary>
         public string Add(FlightPlan plan)
         {
-            string new_id = ID_Generator.GenerateID();
+            string new_id = GeneratorID.GenerateID();
 
-            plansMutex.WaitOne();
-            plans[new_id] = plan;
-            plansMutex.ReleaseMutex();
+            PlansMutex.WaitOne();
+            FltPlans[new_id] = plan;
+            PlansMutex.ReleaseMutex();
 
             return new_id;
         }
 
         public bool Delete(string id)
         {
-            plansMutex.WaitOne();
-            var success = plans.ContainsKey(id);
-            if (success) plans.Remove(id);
-            plansMutex.ReleaseMutex();
+            PlansMutex.WaitOne();
+            var success = FltPlans.ContainsKey(id);
+            if (success) FltPlans.Remove(id);
+            PlansMutex.ReleaseMutex();
 
             return success;
         }
@@ -75,9 +75,9 @@ namespace FlightControlWeb.Model
 
         public IEnumerable<Flight> GetLocalFlights(DateTime time)
         {
-            plansMutex.WaitOne();
+            PlansMutex.WaitOne();
 
-            foreach (var (id, plan) in plans)
+            foreach (var (id, plan) in FltPlans)
             {
                 if (!IsInAir(plan, time))
                     continue;
@@ -99,13 +99,13 @@ namespace FlightControlWeb.Model
                 };
             }
 
-            plansMutex.ReleaseMutex();
+            PlansMutex.ReleaseMutex();
         }
 
-        private Model(I_ID_Generator ID_Generator)
+        private Model(IGeneratorID ID_Generator)
         {
-            this.ID_Generator = ID_Generator;
-            this.plans = new Dictionary<string, FlightPlan>();
+            this.GeneratorID = ID_Generator;
+            this.FltPlans = new Dictionary<string, FlightPlan>();
         }
 
         public static readonly Model SingletonInstance

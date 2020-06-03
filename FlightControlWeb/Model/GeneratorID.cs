@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FlightControlWeb.Model
 {
-    interface I_ID_Generator
+    interface IGeneratorID
     {
         string GenerateID();
     }
@@ -10,7 +10,7 @@ namespace FlightControlWeb.Model
     /// Result ID foramt:
     /// "LLL-DDDD" (L is a capital Letter, D is a Digit).
     /// </summary>
-    class RandomBased_ID_Generator : I_ID_Generator
+    class RandomBased_ID_Generator : IGeneratorID
     {
         private Random rand = new Random();
 
