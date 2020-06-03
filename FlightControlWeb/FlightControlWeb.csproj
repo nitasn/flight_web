@@ -7,6 +7,8 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Controllers\" />
+    <Folder Include="JsonableObjects\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\dropzone-5.7.0\bower.json">
