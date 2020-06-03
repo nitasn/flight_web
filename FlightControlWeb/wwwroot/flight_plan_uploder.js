@@ -1,26 +1,7 @@
 ﻿"use strict";
 
 
-function add_to_my_flights(id, flight_plan, is_local) {
-
-    const list = document.getElementById('file');
-
-    // todo delete button
-    const options = is_local ? 'delete' : '[extrnal]';
-
-    list.innerHTML += `
-        <tbody id=${id}>
-        <tr>
-            <th scope="row">${id}</th>
-            <td>${flight_plan.company_name}</td>
-            <td>${options}</td>
-        </tr>
-        </tbody>
-    `;
-}
-
-
-(function () { /* sends local file to server, then calls add_to_my_flights */
+(function () { // sends local flight-plan json-file to server
 
     function onChange(event) {
         const reader = new FileReader();
@@ -49,9 +30,8 @@ function add_to_my_flights(id, flight_plan, is_local) {
         http.onload = function () {
             if (http.readyState == 4 && http.status == 200) {
                 const id = http.responseText;
-                alert(`Uploaded. The new Flight's ID is ${id}`);
-                const is_local = true;
-                add_to_my_flights(id, flight_plan, is_local);
+                // todo green nice label 'flight added'
+                // the five_times_a_second_loop will add it to the list!
             }
             else {
                 alert("server didn't accept the plan. make sure its correct");
