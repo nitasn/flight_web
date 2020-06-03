@@ -4,6 +4,9 @@
 window.total_messages = 0;
 
 
+/**
+ * display msg in a box, for no more than 3 seconds
+ */
 function say_nicely(msg) {
 
     const paragraph_element = document.getElementById('msg_paragraph');

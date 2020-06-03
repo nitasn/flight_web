@@ -1,16 +1,19 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Collections.Generic;
 
 namespace FlightControlWeb.Tests
 {
-    [TestClass]
-    public class UnitTest1
+    public class Test_Interpolation
     {
-        [TestMethod]
-        public void TestMethod1()
+        private static bool DoublesEqual(double d1, double d2)
         {
-            /*
+            const double EPSILON = 0.0000001;
+
+            return Math.Abs(d1 - d2) < EPSILON;
+        }
+
+        public void TestInterpolateLocation()
+        {
             var startTime = new DateTime(year: 2000, month: 1, day: 1);
 
             FlightPlan plan = new FlightPlan()
@@ -39,13 +42,15 @@ namespace FlightControlWeb.Tests
                 },
             };
 
-            var actualResult =
+            var (result_lat, result_lng) =
                 plan.InterpolateLocation(startTime + TimeSpan.FromSeconds(15));
 
-            var expectedResult = (116.66666666666667, 166.66666666666666);
+            (double correct_lat, double corrent_lng) =
+                (116.66666666666667, 166.66666666666667);
 
-            // todo compare doubles
-            */
+            if (!DoublesEqual(result_lat, correct_lat) ||
+                !DoublesEqual(result_lng, corrent_lng))
+                throw new Exception("TestInterpolateLocation Failed");
         }
     }
 }

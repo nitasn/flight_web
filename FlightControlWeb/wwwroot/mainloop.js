@@ -76,12 +76,6 @@ function on_update_failure(err) {
         say_nicely("Couldn't update flights; err msg: <br />" + err);
 }
 
-
-function fatut() {
-    // todo delete me
-    alert(document.getElementById('rb-real-time').checked);
-}
-
 function get_user_selected_time() {
 
     if (document.getElementById('rb-real-time').checked) {

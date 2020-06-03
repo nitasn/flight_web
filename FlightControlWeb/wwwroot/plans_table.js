@@ -124,7 +124,7 @@ function send_delete_request(flight_id) {
             if (!res.ok) {
                 alert(`deletion error: response status ${res.status}`);
             }
-        })
+        }).catch(err => alert(`deletion error: got error ${err}`));
 }
 
 function add_row_to_table(flight) {
