@@ -10,18 +10,35 @@ namespace FlightControlWeb.Model
     {
         //private Mutex plansMutex = new Mutex();
 
+        class DummyMutex
+        {
+            public void WaitOne() { }
+            public void ReleaseMutex() { }
+        }
+        DummyMutex plansMutex = new DummyMutex();
+
         private Dictionary<string, FlightPlan> plans;
 
         private I_ID_Generator ID_Generator;
 
+        public int NumPlans => plans.Count;
+
         public FlightPlan GetFlightPlan(string id)
         {
-            return plans[id]; // todo mutex?
+            plansMutex.WaitOne();
+            var result = plans[id];
+            plansMutex.ReleaseMutex();
+            
+            return result;
         }
 
         public bool HasFlightPlan(string id)
         {
-            return plans.ContainsKey(id);
+            plansMutex.WaitOne();
+            var result = plans.ContainsKey(id);
+            plansMutex.ReleaseMutex();
+
+            return result;
         }
 
         /// <summary>
@@ -31,11 +48,21 @@ namespace FlightControlWeb.Model
         {
             string new_id = ID_Generator.GenerateID();
 
-            //plansMutex.WaitOne();
+            plansMutex.WaitOne();
             plans[new_id] = plan;
-            //plansMutex.ReleaseMutex();
+            plansMutex.ReleaseMutex();
 
             return new_id;
+        }
+
+        public bool Delete(string id)
+        {
+            plansMutex.WaitOne();
+            var success = plans.ContainsKey(id);
+            if (success) plans.Remove(id);
+            plansMutex.ReleaseMutex();
+
+            return success;
         }
 
         private bool IsInAir(FlightPlan plan, DateTime time)
@@ -48,9 +75,7 @@ namespace FlightControlWeb.Model
 
         public IEnumerable<Flight> GetLocalFlights(DateTime time)
         {
-            //plansMutex.WaitOne();
-            //var _plans = plans.Values.ToList();
-            //plansMutex.ReleaseMutex();
+            plansMutex.WaitOne();
 
             foreach (var (id, plan) in plans)
             {
@@ -72,27 +97,10 @@ namespace FlightControlWeb.Model
                     latitude = lat,
                     longitude = lon
                 };
-            };
+            }
+
+            plansMutex.ReleaseMutex();
         }
-
-        //private Flight FlightObj(DateTime time, string id)
-        //{
-        //    //plansMutex.WaitOne(); // todo is this needed?
-        //    var plan = plans[id];
-        //    //plansMutex.ReleaseMutex();
-
-        //    (var latitude, var longtitude) = (3, 3);
-
-        //    return new Flight()
-        //    {
-        //        company_name = plan.company_name,
-        //        flight_id = id,
-        //        is_external = true,
-        //        passengers = plan.passengers,
-        //        date_time = plan.initial_location.date_time,
-                
-        //    };
-        //}
 
         private Model(I_ID_Generator ID_Generator)
         {
