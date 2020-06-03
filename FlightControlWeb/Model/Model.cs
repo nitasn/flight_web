@@ -84,8 +84,8 @@ namespace FlightControlWeb.Model
 
                 var (lat, lon) = plan.InterpolateLocation(time);
 
-                lat = Math.Round(lat, 5);
-                lon = Math.Round(lon, 5);
+                //lat = Math.Round(lat, 5);
+                //lon = Math.Round(lon, 5);
 
                 yield return new Flight()
                 {

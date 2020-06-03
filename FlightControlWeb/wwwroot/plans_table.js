@@ -51,16 +51,16 @@ function add_placeholder_to_table() {
     document.getElementById('flights-table-body').append(tr);
 }
 
-const tags = [
-    "flight_id",
-    "longitude",
-    "latitude",
-    "passengers",
-    "date_time",
-    "is_external",
-];
-
 function clear_details() {
+
+    const tags = [
+        "flight_id",
+        "longitude",
+        "latitude",
+        "passengers",
+        "date_time",
+        "is_external",
+    ];
 
     for (const tag of tags) {
         const element = document.getElementById('cell_' + tag);
@@ -70,6 +70,12 @@ function clear_details() {
 
 function show_details(flight) {
 
+    const tags = [
+        "flight_id",
+        "passengers",
+        "is_external",
+    ];
+
     for (const tag of tags) {
         const element = document.getElementById('cell_' + tag);
         element.innerHTML = flight[tag];
@@ -77,6 +83,12 @@ function show_details(flight) {
 
     const takeoff = document.getElementById('cell_date_time');
     takeoff.innerHTML = formatDate(flight['date_time']);
+
+    const lat = document.getElementById('cell_latitude');
+    lat.innerHTML = flight['latitude'].toFixed(5);
+
+    const lng = document.getElementById('cell_longitude');
+    lng.innerHTML = flight['longitude'].toFixed(5);
 }
 
 function delete_row_from_table(flight_id) {
