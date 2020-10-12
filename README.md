@@ -12,5 +12,4 @@ The client uses Bootstrap and uses Google Maps API.
 
 ![alt text](https://github.com/nitasn/flight_web/blob/master/ScreenShot.png?raw=true)
 
-
 It's a second year university project.
