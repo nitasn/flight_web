@@ -10,6 +10,6 @@ All data is synced with the server; it filters out flights that are not in the a
 The server is a WebAPI built with C# ASP.NET.
 The client uses Bootstrap and Google Maps API.
 
-![alt text](https://github.com/nitasn/flight_web/blob/master/ScreenShot.png?raw=true)
+![screenshot_from_chrome](https://github.com/nitasn/flight_web/blob/master/ScreenShot.png?raw=true)
 
 It's a second year university project.
